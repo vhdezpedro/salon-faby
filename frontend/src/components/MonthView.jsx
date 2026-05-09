@@ -5,15 +5,18 @@ import { daysOfWeek } from "../utilities/daysOfWeek";
 import { months } from "../utilities/months";
 import DayView from "./DayView";
 import { Navigate, Route, useNavigate } from "react-router";
+import NavBar from "./NavBar";
 
 function MonthView(props) {
-  const { appointments } = props;
+  const {
+    appointments,
+    currentDay,
+    currentMonth,
+    currentYear,
+    setCurrentMonth,
+    setCurrentYear,
+  } = props;
   const [touchStart, setTouchStart] = useState(null);
-
-  const currentDay = new Date();
-
-  const [currentMonth, setCurrentMonth] = useState(currentDay.getMonth());
-  const [currentYear, setCurrentYear] = useState(currentDay.getFullYear());
 
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -51,13 +54,7 @@ function MonthView(props) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="month-navbar">
-        {/* <FontAwesomeIcon icon={faAngleLeft} onClick={() => prevMonth()} /> */}
-        <h1>
-          {months[currentMonth]}, {currentYear}
-        </h1>
-        {/* <FontAwesomeIcon icon={faAngleRight} onClick={() => nextMonth()} /> */}
-      </div>
+      <NavBar currentMonth={currentMonth} currentYear={currentYear} />
       <div className="days-of-week">
         {daysOfWeek.map((day) => (
           <div key={day} className="days">

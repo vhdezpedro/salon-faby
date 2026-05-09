@@ -13,11 +13,13 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
-
+.nav-bar {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  justify-items: center;
+}
 .menu-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
   width: 20px;
   height: 20px;
   color: var(--text-light);
@@ -47,13 +49,6 @@ body {
 .monthly-view {
   padding: 0 16px;
   overflow-x: auto;
-}
-
-.month-navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 30px;
 }
 
 .month-navbar svg {
@@ -194,4 +189,59 @@ body {
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 4px;
+}
+
+.actual-day {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+  font-family: "Comfortaa", cursive;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.span-number {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Comfortaa", cursive;
+  font-size: small;
+}
+
+.day-grid-hour {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.actual-hour {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  align-items: center;
+  justify-content: center;
+  font-family: "Comfortaa", cursive;
+  font-size: x-small;
+}
+
+.hour-appointments {
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+  margin-right: 2px;
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 20px;
 }

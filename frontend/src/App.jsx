@@ -7,6 +7,10 @@ import { useState } from "react";
 import DayView from "./components/DayView";
 
 function App() {
+  const currentDay = new Date();
+  const [currentMonth, setCurrentMonth] = useState(currentDay.getMonth());
+  const [currentYear, setCurrentYear] = useState(currentDay.getFullYear());
+
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
@@ -14,16 +18,32 @@ function App() {
 
   return (
     <>
-      <FontAwesomeIcon icon={faSliders} className="menu-btn" />
-      {/*       <div className="nav-menu">
-        <div className="nav-item">Mes</div>
-        <div className="nav-item">Día</div>
-      </div> */}
       <Routes>
-        <Route index element={<MonthView appointments={appointments} />} />
+        <Route
+          index
+          element={
+            <MonthView
+              appointments={appointments}
+              currentDay={currentDay}
+              currentMonth={currentMonth}
+              currentYear={currentYear}
+              setCurrentMonth={setCurrentMonth}
+              setCurrentYear={setCurrentYear}
+            />
+          }
+        />
         <Route
           path="day/:year/:month/:day"
-          element={<DayView appointments={appointments} />}
+          element={
+            <DayView
+              appointments={appointments}
+              currentDay={currentDay}
+              currentMonth={currentMonth}
+              currentYear={currentYear}
+              setCurrentMonth={setCurrentMonth}
+              setCurrentYear={setCurrentYear}
+            />
+          }
         />
       </Routes>
       {showModal && (
