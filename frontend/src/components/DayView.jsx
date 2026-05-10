@@ -48,6 +48,7 @@ function DayView(props) {
             </>
           );
         })}
+        <div className="prueba-0">Hola</div>
       </div>
     </div>
   );

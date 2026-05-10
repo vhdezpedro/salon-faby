@@ -221,6 +221,7 @@ body {
 }
 
 .day-grid-hour {
+  position: relative;
   display: grid;
   grid-template-columns: 50px 1fr;
   gap: 2px;
@@ -244,4 +245,13 @@ body {
   margin-right: 2px;
   background-color: rgba(0, 0, 0, 0.3);
   height: 20px;
+}
+
+.prueba-0 {
+  position: absolute;
+  top: 0;
+  left: 52px;
+  width: calc(100% - 54px);
+  height: 20px;
+  background-color: rgb(247, 223, 137);
 }
