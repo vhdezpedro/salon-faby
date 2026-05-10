@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comfortaa:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+/* @import "tailwindcss"; */
 
 :root {
   --text-dark: white;
@@ -247,11 +248,11 @@ body {
   height: 20px;
 }
 
-.prueba-0 {
+.hour-appt {
   position: absolute;
-  top: 0;
+  top: var(--my-top);
   left: 52px;
   width: calc(100% - 54px);
-  height: 20px;
+  height: var(--my-height);
   background-color: rgb(247, 223, 137);
 }
