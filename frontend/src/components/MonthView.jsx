@@ -54,6 +54,8 @@ function MonthView(props) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      <FontAwesomeIcon icon={faAngleLeft} onClick={prevMonth} />
+      <FontAwesomeIcon icon={faAngleRight} onClick={nextMonth} />
       <NavBar currentMonth={currentMonth} currentYear={currentYear} />
       <div className="days-of-week">
         {daysOfWeek.map((day) => (

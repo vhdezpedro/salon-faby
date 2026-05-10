@@ -9,7 +9,8 @@ function NavBar(props) {
   const { currentMonth, currentYear } = props;
   return (
     <div className="nav-bar">
-      <FontAwesomeIcon icon={faSliders} className="menu-btn" />
+      <div></div>
+      {/* <FontAwesomeIcon icon={faSliders} className="menu-btn" /> */}
       {/*       <div className="nav-menu">
         <div className="nav-item">Mes</div>
         <div className="nav-item">Día</div>
