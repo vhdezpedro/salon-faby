@@ -255,4 +255,8 @@ body {
   width: calc(100% - 54px);
   height: var(--my-height);
   background-color: rgb(247, 223, 137);
+  font-family: "Comfortaa", cursive;
+  font-size: 11px;
+  padding-left: 4px;
+  align-content: center;
 }

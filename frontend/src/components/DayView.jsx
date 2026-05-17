@@ -15,22 +15,37 @@ function DayView(props) {
     setCurrentYear,
   } = props;
 
-  /*   const [actualDay, setActualDay] = useState(currentDay.getDate());
-  const [touchStart, setTouchStart] = useState(null); */
+  const [touchStart, setTouchStart] = useState(null);
   const { year, month, day } = useParams();
+  const [actualDay, setActualDay] = useState(parseInt(day));
+  const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
+  const dayNumber = new Date(currentYear, currentMonth, actualDay).getDay();
 
-  const dayNumber = new Date(year, month, day).getDay();
+  console.log(actualDay === 1 && currentMonth === 0);
+  console.log(actualDay === 1 && currentMonth !== 0);
+  console.log(currentMonth, lastDay, prevLastDay);
 
-  /*   const handleTouchStart = (e) => {
+  const handleTouchStart = (e) => {
     setTouchStart(e.touches[0].clientX);
   };
 
   const prevDay = () => {
-    setCurrentMonth((prev) => (prev === 0 ? 11 : prev - 1));
+    setActualDay((prev) => (prev === 1 ? prevLastDay : prev - 1));
+    setCurrentMonth((prev) => {
+      if (actualDay === 1 && prev === 0) return 11;
+      else if (actualDay === 1 && prev !== 0) return (prev = prev - 1);
+      else return prev;
+    });
     setCurrentYear((prev) => (currentMonth === 0 ? prev - 1 : prev));
   };
   const nextDay = () => {
-    setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
+    setActualDay((prev) => (prev === lastDay ? 1 : prev + 1));
+    setCurrentMonth((prev) => {
+      if (actualDay === lastDay && prev === 11) return 0;
+      else if (actualDay === lastDay && prev !== 11) return prev + 1;
+      else return prev;
+    });
     setCurrentYear((prev) => (currentMonth === 11 ? prev + 1 : prev));
   };
 
@@ -44,30 +59,30 @@ function DayView(props) {
       else prevDay();
     }
     setTouchStart(null);
-  }; */
+  };
 
   console.log(appointments);
 
   return (
     <div
       className="daily-view"
-      /* onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd} */
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      <NavBar currentMonth={month} currentYear={year} />
+      <NavBar currentMonth={currentMonth} currentYear={currentYear} />
       <div className="day-grid">
         <div className="actual-day">
           <span>{daysOfWeek[dayNumber]}</span>
           <span
             className={`span-number ${
-              day == currentDay.getDate() &&
-              month == currentDay.getMonth() &&
-              year == currentDay.getFullYear()
+              actualDay == currentDay.getDate() &&
+              currentMonth == currentDay.getMonth() &&
+              currentYear == currentDay.getFullYear()
                 ? "is-today"
                 : ""
             }`}
           >
-            {day}
+            {actualDay}
           </span>
         </div>
       </div>
