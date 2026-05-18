@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useParams } from "react-router";
 import { months } from "../utilities/months";
 import { daysOfWeek } from "../utilities/daysOfWeek";
@@ -57,11 +57,9 @@ function DayView(props) {
     setTouchStart(null);
   };
 
-  console.log(appointments);
-
   return (
     <div
-      className="daily-view"
+      className="px-2 overflow-hidden h-screen"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -71,31 +69,35 @@ function DayView(props) {
         previous={prevDay}
         next={nextDay}
       />
-      <div className="day-grid">
-        <div className="actual-day">
-          <span>{daysOfWeek[dayNumber]}</span>
-          <span
-            className={`span-number ${
-              actualDay == currentDay.getDate() &&
-              currentMonth == currentDay.getMonth() &&
-              currentYear == currentDay.getFullYear()
-                ? "is-today"
-                : ""
-            }`}
-          >
-            {actualDay}
-          </span>
-        </div>
+      <div className="w-10 flex flex-col items-center justify-center font-['Comfortaa'] text-sm font-bold">
+        <span>{daysOfWeek[dayNumber]}</span>
+        <span
+          className={`flex w-6.25 h-6.25 items-center justify-center text-center font-['Comfortaa'] text-sm ${
+            actualDay == currentDay.getDate() &&
+            currentMonth == currentDay.getMonth() &&
+            currentYear == currentDay.getFullYear()
+              ? "bg-(--today) rounded-full"
+              : ""
+          }`}
+        >
+          {actualDay}
+        </span>
       </div>
-      <div className="day-grid-hour">
+      <div className="relative grid grid-cols-[40px_1fr] gap-px mt-1 h-[calc(100%-120px)] overflow-y-auto scrollbar-thumb-transparent">
         {hours.map((hour, index) => {
           return (
-            <>
-              <span key={hour} className="actual-hour">
+            <Fragment key={`hour-${index}`}>
+              <span
+                key={hour}
+                className="flex flex-col items-center justify-center font-['Comfortaa'] text-[10px]"
+              >
                 {hour}
               </span>
-              <span key={`appt-${index}`} className="hour-appointments"></span>
-            </>
+              <span
+                key={`appt-${index}`}
+                className="flex flex-col rounded-xs mr-0.5 bg-(--day-bar-light) h-8 "
+              ></span>
+            </Fragment>
           );
         })}
         {appointments &&
@@ -103,16 +105,16 @@ function DayView(props) {
             .filter((appt) => {
               const apptDate = new Date(appt.date);
               return (
-                apptDate.getDate() + 1 == day &&
-                apptDate.getMonth() == month &&
-                apptDate.getFullYear() == year
+                apptDate.getDate() + 1 == actualDay &&
+                apptDate.getMonth() == currentMonth &&
+                apptDate.getFullYear() == currentYear
               );
             })
             .map((appt) => {
               const apptHour = parseInt(appt.time.split(":")[0]);
               const apptMin = parseInt(appt.time.split(":")[1]);
-              const top = apptHour * 22 + (apptMin / 60) * 22;
-              const height = appt.service.duration * 0.333;
+              const top = apptHour * 33 + (apptMin / 60) * 33;
+              const height = appt.service.duration * 0.55;
 
               console.log(apptHour, apptMin, top, height);
               return (
@@ -122,7 +124,7 @@ function DayView(props) {
                     "--my-top": `${top}px`,
                     "--my-height": `${height}px`,
                   }}
-                  className="hour-appt"
+                  className="absolute top-(--my-top) left-10.25 w-[calc(100%-65px)] h-(--my-height) bg-(--appointment-light) font-['Comfortaa'] text-[11px] pl-1 content-center rounded-sm"
                 >
                   {appt.name}-{appt.service.name}
                 </div>

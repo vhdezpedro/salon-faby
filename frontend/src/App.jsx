@@ -5,6 +5,7 @@ import { faPlus, faSliders } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./components/Modal";
 import { useState } from "react";
 import DayView from "./components/DayView";
+import Menu from "./components/Menu";
 
 function App() {
   const currentDay = new Date();
@@ -15,7 +16,7 @@ function App() {
   const [appointments, setAppointments] = useState([]);
 
   return (
-    <>
+    <div className="min-h-screen bg-(--bg-light) text-(--text-light)">
       <Routes>
         <Route
           index
@@ -48,13 +49,13 @@ function App() {
         <Modal setShowModal={setShowModal} setAppointments={setAppointments} />
       )}
       <FontAwesomeIcon
-        className="add-btn"
+        className="fixed bottom-5 right-5 p-3.75 rounded-[13px] bg-(--add-btn-light) text-(--text-dark)"
         icon={faPlus}
         onClick={() => {
           setShowModal(true);
         }}
       />
-    </>
+    </div>
   );
 }
 

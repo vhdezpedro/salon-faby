@@ -1,4 +1,3 @@
-// import { hours, minutes } from "../utilities/hrs-min";
 import { useState } from "react";
 import { services } from "../utilities/servicios";
 
@@ -40,37 +39,52 @@ function Modal({ setShowModal, setAppointments }) {
   };
 
   return (
-    <div className="modal" onClick={() => setShowModal(false)}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h3>Nueva Cita</h3>
-        <form action="">
-          <div className="modal-name">
-            <label>Nombre:</label>
+    <div
+      className="fixed inset-0 w-full h-full font-['Comfortaa'] bg-black/50 flex items-center justify-center text-sm"
+      onClick={() => setShowModal(false)}
+    >
+      <div
+        className="bg-(--bg-light) p-5 rounded-[10px] w-60 justify-start"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="font-bold text-center text-base mb-2 border-b border-b-gray-300">
+          Nueva Cita
+        </h3>
+        <div className="flex flex-col items-start gap-2">
+          <div className="flex gap-1">
+            <label className="w-17.5">Nombre:</label>
             <input
+              className="w-30 text-[11px] px-1 border rounded-md"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="modal-name">
-            <label>Fecha:</label>
+          <div className="flex gap-1">
+            <label className="w-17.5">Fecha:</label>
             <input
+              className="w-30 text-[11px] px-1  border rounded-md"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
-          <div className="modal-name">
-            <label>Hora:</label>
+          <div className="flex gap-1">
+            <label className="w-17.5">Hora:</label>
             <input
+              className="w-30 text-[11px] px-1  border rounded-md"
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />
           </div>
-          <div className="modal-name">
-            <label>Servicio:</label>
-            <select name="minutes" onChange={handleServiceChange}>
+          <div className="flex gap-1">
+            <label className="w-17.5">Servicio:</label>
+            <select
+              className="w-30 text-[11px] px-1  border rounded-md"
+              name="minutes"
+              onChange={handleServiceChange}
+            >
               <option value="">Selecionar</option>
               {services.map((service, i) => (
                 <option key={i} value={service.name}>
@@ -79,9 +93,10 @@ function Modal({ setShowModal, setAppointments }) {
               ))}
             </select>
           </div>
-          <div className="modal-name">
-            <label>Tiempo:</label>
+          <div className="flex gap-1">
+            <label className="w-17.5">Tiempo:</label>
             <input
+              className="w-30 text-[11px] px-1 border rounded-md"
               type="text"
               value={duration}
               onChange={(e) => {
@@ -90,11 +105,21 @@ function Modal({ setShowModal, setAppointments }) {
               readOnly
             />
           </div>
-          <div className="modal-btn">
-            <button onClick={handleApptSubmit}>Aceptar</button>
-            <button onClick={() => setShowModal(false)}>Cancelar</button>
+          <div className="pt-4 flex gap-2 self-center">
+            <button
+              className="py-1 px-2 h-6.25 w-20 border-none rounded-sm bg-(--add-btn-light) cursor-pointer text-(--text-dark)"
+              onClick={handleApptSubmit}
+            >
+              Aceptar
+            </button>
+            <button
+              className="py-1 px-2 h-6.25 w-20 border-none rounded-sm bg-(--add-btn-light) cursor-pointer text-(--text-dark)"
+              onClick={() => setShowModal(false)}
+            >
+              Cancelar
+            </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
