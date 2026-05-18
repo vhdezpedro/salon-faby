@@ -22,10 +22,6 @@ function DayView(props) {
   const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
   const dayNumber = new Date(currentYear, currentMonth, actualDay).getDay();
 
-  console.log(actualDay === 1 && currentMonth === 0);
-  console.log(actualDay === 1 && currentMonth !== 0);
-  console.log(currentMonth, lastDay, prevLastDay);
-
   const handleTouchStart = (e) => {
     setTouchStart(e.touches[0].clientX);
   };
@@ -69,7 +65,12 @@ function DayView(props) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <NavBar currentMonth={currentMonth} currentYear={currentYear} />
+      <NavBar
+        currentMonth={currentMonth}
+        currentYear={currentYear}
+        previous={prevDay}
+        next={nextDay}
+      />
       <div className="day-grid">
         <div className="actual-day">
           <span>{daysOfWeek[dayNumber]}</span>

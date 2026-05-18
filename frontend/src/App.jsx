@@ -14,8 +14,6 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
-  console.log(appointments);
-
   return (
     <>
       <Routes>
