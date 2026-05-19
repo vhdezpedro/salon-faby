@@ -13,6 +13,7 @@ function DayView(props) {
     currentYear,
     setCurrentMonth,
     setCurrentYear,
+    theme,
   } = props;
 
   const [touchStart, setTouchStart] = useState(null);
@@ -95,7 +96,7 @@ function DayView(props) {
               </span>
               <span
                 key={`appt-${index}`}
-                className="flex flex-col rounded-xs mr-0.5 bg-(--day-bar-light) h-8 "
+                className={`flex flex-col rounded-xs mr-0.5 ${theme === "light" ? "bg-(--day-bar-light)" : "bg-(--day-bar-dark)"} h-8 `}
               ></span>
             </Fragment>
           );

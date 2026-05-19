@@ -4,14 +4,16 @@
 :root {
   --text-dark: white;
   --text-light: black;
-  --bg-dark: black;
+  --bg-dark: rgb(40, 40, 40);
   --bg-light: rgb(230, 230, 230);
-  --today: oklch(90.5% 0.182 98.111);
-  --appointment-light: rgb(247, 223, 137);
+  --today: rgba(255, 209, 43, 0.918);
+  --appointment-light: rgba(247, 218, 115, 0.858);
   --day-bar-light: white;
-  --day-bar-dark: rgb(93, 93, 93);
-  --add-btn-light: rgb(93, 93, 93);
+  --day-bar-dark: black;
+  --add-btn-light: rgb(109, 109, 109);
   --add-btn-dark: rgb(222, 222, 222);
+  --menu-bg-light: rgb(255, 255, 255);
+  --menu-bg-dark: rgb(41, 41, 41);
 }
 
 body {

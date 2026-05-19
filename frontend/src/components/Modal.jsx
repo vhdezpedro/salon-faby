@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { services } from "../utilities/servicios";
 
-function Modal({ setShowModal, setAppointments }) {
+function Modal({ setShowModal, setAppointments, theme }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -44,10 +44,12 @@ function Modal({ setShowModal, setAppointments }) {
       onClick={() => setShowModal(false)}
     >
       <div
-        className="bg-(--bg-light) p-5 rounded-[10px] w-60 justify-start"
+        className={`${theme === "light" ? "bg-(--bg-light) text-(--text-light)" : "bg-(--bg-dark) text-(--text-dark)"} p-5 rounded-[10px] w-60 justify-start`}
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="font-bold text-center text-base mb-2 border-b border-b-gray-300">
+        <h3
+          className={`font-bold text-center text-base mb-8 pb-2 border-b ${theme === "light" ? "border-b-gray-300" : "border-b-gray-600"}`}
+        >
           Nueva Cita
         </h3>
         <div className="flex flex-col items-start gap-2">
@@ -107,13 +109,13 @@ function Modal({ setShowModal, setAppointments }) {
           </div>
           <div className="pt-4 flex gap-2 self-center">
             <button
-              className="py-1 px-2 h-6.25 w-20 border-none rounded-sm bg-(--add-btn-light) cursor-pointer text-(--text-dark)"
+              className={`py-1 px-2 h-6.25 w-20 border-none rounded-sm ${theme === "light" ? "bg-(--add-btn-light) text-(--text-dark)" : "bg-(--add-btn-dark) text-(--text-light)"} cursor-pointer`}
               onClick={handleApptSubmit}
             >
               Aceptar
             </button>
             <button
-              className="py-1 px-2 h-6.25 w-20 border-none rounded-sm bg-(--add-btn-light) cursor-pointer text-(--text-dark)"
+              className={`py-1 px-2 h-6.25 w-20 border-none rounded-sm ${theme === "light" ? "bg-(--add-btn-light) text-(--text-dark)" : "bg-(--add-btn-dark) text-(--text-light)"} cursor-pointer`}
               onClick={() => setShowModal(false)}
             >
               Cancelar
