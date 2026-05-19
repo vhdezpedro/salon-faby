@@ -10,11 +10,11 @@ import MonthView from "./MonthView";
 import { useNavigate } from "react-router";
 
 function Menu(props) {
-  const { setTema, tema, setShowMenu, showMenu, currentMonth, currentYear } =
+  const { setTheme, theme, setShowMenu, showMenu, currentMonth, currentYear } =
     props;
 
-  const handleTemaChange = () => {
-    setTema((prev) => (prev === "light" ? "dark" : "light"));
+  const handleThemeChange = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function Menu(props) {
       onClick={() => setShowMenu(false)}
     >
       <div
-        className={`fixed inset-0 w-60 h-full bg-white rounded-xl p-3 transition-transform duration-500 ease-in-out ${showMenu ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-0 w-60 h-full ${theme === "light" ? "bg-(--menu-bg-light)" : "bg-(--menu-bg-dark)"} rounded-xl p-3 transition-transform duration-500 ease-in-out ${showMenu ? "translate-x-0" : "-translate-x-full"}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="pb-3 border-b border-gray-300 mb-3">
@@ -55,17 +55,17 @@ function Menu(props) {
         <div className="flex flex-col gap-2 text-[12px] justify-center">
           <span>
             Tema obscuro{" "}
-            {tema === "light" ? (
+            {theme === "light" ? (
               <FontAwesomeIcon
                 className="text-base"
                 icon={faToggleOff}
-                onClick={handleTemaChange}
+                onClick={handleThemeChange}
               />
             ) : (
               <FontAwesomeIcon
                 className="text-base"
                 icon={faToggleOn}
-                onClick={handleTemaChange}
+                onClick={handleThemeChange}
               />
             )}
           </span>

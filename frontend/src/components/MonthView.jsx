@@ -15,6 +15,7 @@ function MonthView(props) {
     currentYear,
     setCurrentMonth,
     setCurrentYear,
+    theme,
   } = props;
   const [touchStart, setTouchStart] = useState(null);
 
@@ -73,14 +74,14 @@ function MonthView(props) {
         ))}
         {[...Array(daysInMonth).keys()].map((day) => (
           <div
-            className="aspect-1/1.5 text-center rounded-md bg-(--day-bar-light) pt-0.5 overflow-hidden"
+            className={`aspect-1/1.5 text-center rounded-md ${theme === "light" ? "bg-(--day-bar-light)" : "bg-(--day-bar-dark)"} pt-0.5 overflow-hidden`}
             key={`month-day-${day}`}
             onClick={() => {
               navigate(`/day/${currentYear}/${currentMonth}/${day + 1}`);
             }}
           >
             <span
-              className={`flex w-5 h-5 items-center justify-center text-center font-['Comfortaa'] text-[10px] font-semibold ${day + 1 === currentDay.getDate() && currentMonth === currentDay.getMonth() && currentYear === currentDay.getFullYear() ? "bg-(--today) rounded-full" : ""}`}
+              className={`flex w-5 h-5 items-center justify-center text-center font-['Comfortaa'] text-[11px] ${day + 1 === currentDay.getDate() && currentMonth === currentDay.getMonth() && currentYear === currentDay.getFullYear() ? "bg-(--today) rounded-full font-bold" : "font-semibold"}`}
             >
               {day + 1}
             </span>
