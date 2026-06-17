@@ -21,6 +21,10 @@ function App() {
   const [theme, setTheme] = useState("light");
   const [appointments, setAppointments] = useState([]);
 
+  const deleteAppointment = (id) => {
+    setAppointments((prev) => prev.filter((appt) => appt.id !== id));
+  };
+
   return (
     <div
       className={`min-h-screen ${theme === "light" ? "bg-(--bg-light) text-(--text-light)" : "bg-(--bg-dark) text-(--text-dark)"}`}
@@ -65,6 +69,7 @@ function App() {
               setCurrentYear={setCurrentYear}
               setShowModal={setShowModal}
               setEditingAppointment={setEditingAppointment}
+              deleteAppointment={deleteAppointment}
               theme={theme}
             />
           }

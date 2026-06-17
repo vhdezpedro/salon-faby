@@ -81,27 +81,41 @@ function MonthView(props) {
             }}
           >
             <span
-              className={`flex w-5 h-5 items-center justify-center text-center font-['Comfortaa'] text-[11px] ${day + 1 === currentDay.getDate() && currentMonth === currentDay.getMonth() && currentYear === currentDay.getFullYear() ? "bg-(--today) rounded-full font-bold" : "font-semibold"}`}
+              className={`flex w-5 h-5 mb-2 items-center justify-center text-center font-['Comfortaa'] text-[11px] ${day + 1 === currentDay.getDate() && currentMonth === currentDay.getMonth() && currentYear === currentDay.getFullYear() ? "bg-(--today) rounded-full font-bold" : "font-semibold"}`}
             >
               {day + 1}
             </span>
             <div className="flex flex-col gap-px my-px rounded-xl">
               {appointments &&
-                appointments
-                  .filter((appt) => {
+                (() => {
+                  const dayAppts = appointments.filter((appt) => {
                     const [y, m, d] = appt.date.split("-").map(Number);
-                    return d === day + 1 && m - 1 === currentMonth && y === currentYear;
-                  })
-                  .map((appt) => (
-                    <div
-                      key={appt.id}
-                      className="bg-(--appointment-light) text-left text-[8px] rounded-sx"
-                    >
-                      <span className="block min-w-0 whitespace-nowrap overflow-hidden">
-                        {appt.name}-{appt.service.name}
-                      </span>
-                    </div>
-                  ))}
+                    return (
+                      d === day + 1 &&
+                      m - 1 === currentMonth &&
+                      y === currentYear
+                    );
+                  });
+                  return (
+                    <>
+                      {dayAppts.slice(0, 4).map((appt) => (
+                        <div
+                          key={appt.id}
+                          className="bg-(--appointment-light) text-left text-[8px] rounded-sx"
+                        >
+                          <span className="block min-w-0 whitespace-nowrap overflow-hidden">
+                            {appt.name}-{appt.service.name}
+                          </span>
+                        </div>
+                      ))}
+                      {dayAppts.length > 4 && (
+                        <span className="text-[7px] text-gray-500 text-center">
+                          +{dayAppts.length - 4}
+                        </span>
+                      )}
+                    </>
+                  );
+                })()}
             </div>
           </div>
         ))}

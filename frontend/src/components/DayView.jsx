@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 import { months } from "../utilities/months";
 import { daysOfWeek } from "../utilities/daysOfWeek";
 import { hours } from "../utilities/hrs-min";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "./NavBar";
 
 function DayView(props) {
@@ -15,6 +17,7 @@ function DayView(props) {
     setCurrentYear,
     setShowModal,
     setEditingAppointment,
+    deleteAppointment,
     theme,
   } = props;
 
@@ -107,7 +110,9 @@ function DayView(props) {
           appointments
             .filter((appt) => {
               const [y, m, d] = appt.date.split("-").map(Number);
-              return d === actualDay && m - 1 === currentMonth && y === currentYear;
+              return (
+                d === actualDay && m - 1 === currentMonth && y === currentYear
+              );
             })
             .map((appt) => {
               const apptHour = parseInt(appt.time.split(":")[0]);
@@ -115,7 +120,6 @@ function DayView(props) {
               const top = apptHour * 33 + (apptMin / 60) * 33;
               const height = appt.service.duration * 0.55;
 
-              console.log(apptHour, apptMin, top, height);
               return (
                 <div
                   key={appt.id}
@@ -123,13 +127,27 @@ function DayView(props) {
                     "--my-top": `${top}px`,
                     "--my-height": `${height}px`,
                   }}
-                  className="absolute top-(--my-top) left-10.25 w-[calc(100%-65px)] h-(--my-height) bg-(--appointment-light) font-['Comfortaa'] text-[11px] pl-1 content-center rounded-sm cursor-pointer"
-                  onClick={() => {
-                    setEditingAppointment(appt);
-                    setShowModal(true);
-                  }}
+                  className="absolute top-(--my-top) left-10.25 w-[calc(100%-65px)] h-(--my-height) bg-(--appointment-light) font-['Comfortaa'] text-[11px] pl-1 content-center rounded-sm cursor-pointer flex items-center justify-between"
                 >
-                  {appt.name}-{appt.service.name}
+                  <span
+                    className="truncate"
+                    onClick={() => {
+                      setEditingAppointment(appt);
+                      setShowModal(true);
+                    }}
+                  >
+                    {appt.name}-{appt.service.name}
+                  </span>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="pr-1.5 text-red-500 hover:text-red-700 shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirm("¿Eliminar esta cita?")) {
+                        deleteAppointment(appt.id);
+                      }
+                    }}
+                  />
                 </div>
               );
             })}
