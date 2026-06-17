@@ -2,7 +2,8 @@ import pool from "../config/db.js";
 
 export const findAll = async () => {
   const [rows] = await pool.query(`
-    SELECT a.id, a.name, a.date, a.time, a.service_id,
+    SELECT a.id, a.name, DATE_FORMAT(a.date, '%Y-%m-%d') AS date,
+           TIME_FORMAT(a.time, '%H:%i') AS time, a.service_id,
            s.name AS service_name, s.duration AS service_duration
     FROM appointments a
     JOIN services s ON a.service_id = s.id
@@ -13,7 +14,8 @@ export const findAll = async () => {
 
 export const findById = async (id) => {
   const [rows] = await pool.query(`
-    SELECT a.id, a.name, a.date, a.time, a.service_id,
+    SELECT a.id, a.name, DATE_FORMAT(a.date, '%Y-%m-%d') AS date,
+           TIME_FORMAT(a.time, '%H:%i') AS time, a.service_id,
            s.name AS service_name, s.duration AS service_duration
     FROM appointments a
     JOIN services s ON a.service_id = s.id

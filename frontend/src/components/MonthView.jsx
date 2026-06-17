@@ -90,7 +90,6 @@ function MonthView(props) {
                 (() => {
                   const dayAppts = appointments.filter((appt) => {
                     const [y, m, d] = appt.date
-                      .split("T")[0]
                       .split("-")
                       .map(Number);
                     return (

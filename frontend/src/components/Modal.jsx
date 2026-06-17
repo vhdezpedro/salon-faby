@@ -22,7 +22,7 @@ function Modal({
     fetchServices()
       .then(setServices)
       .catch(() => {});
-  }, []);
+  }, [appointments]);
 
   useEffect(() => {
     if (editingAppointment) {
@@ -42,6 +42,7 @@ function Modal({
     }
 
     const appointmentData = {
+      id: editingAppointment?.id,
       name,
       date,
       time,
@@ -49,8 +50,6 @@ function Modal({
       service_name: selectedService?.name,
       service_duration: selectedService?.duration,
     };
-
-    console.log(appointmentData);
 
     if (hasConflict(appointmentData, appointments)) {
       setConflictError("Ya existe una cita en ese horario");

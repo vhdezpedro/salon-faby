@@ -109,7 +109,7 @@ function DayView(props) {
         {appointments &&
           appointments
             .filter((appt) => {
-              const [y, m, d] = appt.date.split("T")[0].split("-").map(Number);
+              const [y, m, d] = appt.date.split("-").map(Number);
               return (
                 d === actualDay && m - 1 === currentMonth && y === currentYear
               );

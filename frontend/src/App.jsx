@@ -30,7 +30,7 @@ function App() {
     fetchAppointments()
       .then(setAppointments)
       .catch((err) => console.error(err));
-  }, []);
+  }, [appointments]);
 
   const handleCreateAppointment = async (appointmentData) => {
     const newAppt = await createAppointment(
