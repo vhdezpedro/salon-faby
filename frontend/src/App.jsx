@@ -13,7 +13,10 @@ function App() {
   const [currentYear, setCurrentYear] = useState(currentDay.getFullYear());
 
   const [showModal, setShowModal] = useState(false);
+
+  // Hide menu needs to be fixed, no animation when hiding.
   const [showMenu, setShowMenu] = useState(false);
+
   const [theme, setTheme] = useState("light");
   const [appointments, setAppointments] = useState([]);
 
@@ -68,6 +71,7 @@ function App() {
         <Modal
           setShowModal={setShowModal}
           setAppointments={setAppointments}
+          appointments={appointments}
           theme={theme}
         />
       )}

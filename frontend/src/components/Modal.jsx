@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { services } from "../utilities/servicios";
+import { hasConflict } from "../utilities/validateConflict";
 
-function Modal({ setShowModal, setAppointments, theme }) {
+function Modal({ setShowModal, setAppointments, theme, appointments }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [service, setService] = useState("");
   const [duration, setDuration] = useState(0);
+  const [conflictError, setConflictError] = useState("");
 
   const handleServiceChange = (e) => {
     const selectedService = services.find(
@@ -17,6 +19,11 @@ function Modal({ setShowModal, setAppointments, theme }) {
   };
 
   const handleApptSubmit = () => {
+    if (!name || !date || !time || !service) {
+      setConflictError("Todos los campos son obligatorios");
+      return;
+    }
+
     const newAppointment = {
       id: Date.now(),
       name,
@@ -28,6 +35,12 @@ function Modal({ setShowModal, setAppointments, theme }) {
       },
     };
 
+    if (hasConflict(newAppointment, appointments)) {
+      setConflictError("Ya existe una cita en ese horario");
+      return;
+    }
+
+    setConflictError("");
     setAppointments((prev) => {
       const sorted = [...prev, newAppointment];
       return sorted.sort(
@@ -121,6 +134,9 @@ function Modal({ setShowModal, setAppointments, theme }) {
               Cancelar
             </button>
           </div>
+          {conflictError && (
+            <p className="text-red-500 text-[10px] text-center mt-2 w-full">{conflictError}</p>
+          )}
         </div>
       </div>
     </div>
