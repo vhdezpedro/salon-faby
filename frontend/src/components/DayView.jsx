@@ -109,7 +109,7 @@ function DayView(props) {
         {appointments &&
           appointments
             .filter((appt) => {
-              const [y, m, d] = appt.date.split("-").map(Number);
+              const [y, m, d] = appt.date.split("T")[0].split("-").map(Number);
               return (
                 d === actualDay && m - 1 === currentMonth && y === currentYear
               );
@@ -118,7 +118,7 @@ function DayView(props) {
               const apptHour = parseInt(appt.time.split(":")[0]);
               const apptMin = parseInt(appt.time.split(":")[1]);
               const top = apptHour * 33 + (apptMin / 60) * 33;
-              const height = appt.service.duration * 0.55;
+              const height = appt.service_duration * 0.55;
 
               return (
                 <div
@@ -128,15 +128,13 @@ function DayView(props) {
                     "--my-height": `${height}px`,
                   }}
                   className="absolute top-(--my-top) left-10.25 w-[calc(100%-65px)] h-(--my-height) bg-(--appointment-light) font-['Comfortaa'] text-[11px] pl-1 content-center rounded-sm cursor-pointer flex items-center justify-between"
+                  onClick={() => {
+                    setEditingAppointment(appt);
+                    setShowModal(true);
+                  }}
                 >
-                  <span
-                    className="truncate"
-                    onClick={() => {
-                      setEditingAppointment(appt);
-                      setShowModal(true);
-                    }}
-                  >
-                    {appt.name}-{appt.service.name}
+                  <span className="truncate">
+                    {appt.name}-{appt.service_name}
                   </span>
                   <FontAwesomeIcon
                     icon={faTrash}

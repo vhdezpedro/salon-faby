@@ -89,7 +89,10 @@ function MonthView(props) {
               {appointments &&
                 (() => {
                   const dayAppts = appointments.filter((appt) => {
-                    const [y, m, d] = appt.date.split("-").map(Number);
+                    const [y, m, d] = appt.date
+                      .split("T")[0]
+                      .split("-")
+                      .map(Number);
                     return (
                       d === day + 1 &&
                       m - 1 === currentMonth &&
@@ -104,7 +107,7 @@ function MonthView(props) {
                           className="bg-(--appointment-light) text-left text-[8px] rounded-sx"
                         >
                           <span className="block min-w-0 whitespace-nowrap overflow-hidden">
-                            {appt.name}-{appt.service.name}
+                            {appt.name}-{appt.service_name}
                           </span>
                         </div>
                       ))}

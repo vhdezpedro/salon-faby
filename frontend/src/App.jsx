@@ -1,11 +1,17 @@
 import { Route, Routes } from "react-router";
 import MonthView from "./components/MonthView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faPlus, faSliders } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./components/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DayView from "./components/DayView";
 import Menu from "./components/Menu";
+import {
+  fetchAppointments,
+  createAppointment,
+  updateAppointment,
+  deleteAppointment as apiDeleteAppointment,
+} from "./api/appointments";
 
 function App() {
   const currentDay = new Date();
@@ -15,13 +21,47 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [editingAppointment, setEditingAppointment] = useState(null);
 
-  // Hide menu needs to be fixed, no animation when hiding.
   const [showMenu, setShowMenu] = useState(false);
 
   const [theme, setTheme] = useState("light");
   const [appointments, setAppointments] = useState([]);
 
-  const deleteAppointment = (id) => {
+  useEffect(() => {
+    fetchAppointments()
+      .then(setAppointments)
+      .catch((err) => console.error(err));
+  }, []);
+
+  const handleCreateAppointment = async (appointmentData) => {
+    const newAppt = await createAppointment(
+      appointmentData.name,
+      appointmentData.date,
+      appointmentData.time,
+      appointmentData.service_id,
+    );
+    setAppointments((prev) =>
+      [...prev, newAppt].sort(
+        (a, b) =>
+          new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time),
+      ),
+    );
+  };
+
+  const handleUpdateAppointment = async (id, appointmentData) => {
+    const updated = await updateAppointment(
+      id,
+      appointmentData.name,
+      appointmentData.date,
+      appointmentData.time,
+      appointmentData.service_id,
+    );
+    setAppointments((prev) =>
+      prev.map((appt) => (appt.id === id ? updated : appt)),
+    );
+  };
+
+  const handleDeleteAppointment = async (id) => {
+    await apiDeleteAppointment(id);
     setAppointments((prev) => prev.filter((appt) => appt.id !== id));
   };
 
@@ -69,7 +109,7 @@ function App() {
               setCurrentYear={setCurrentYear}
               setShowModal={setShowModal}
               setEditingAppointment={setEditingAppointment}
-              deleteAppointment={deleteAppointment}
+              deleteAppointment={handleDeleteAppointment}
               theme={theme}
             />
           }
@@ -78,10 +118,11 @@ function App() {
       {showModal && (
         <Modal
           setShowModal={setShowModal}
-          setAppointments={setAppointments}
           appointments={appointments}
           editingAppointment={editingAppointment}
           setEditingAppointment={setEditingAppointment}
+          onCreate={handleCreateAppointment}
+          onUpdate={handleUpdateAppointment}
           theme={theme}
         />
       )}

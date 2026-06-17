@@ -1,49 +1,56 @@
 import { useState, useEffect } from "react";
-import { services } from "../utilities/servicios";
+import { fetchServices } from "../api/services";
 import { hasConflict } from "../utilities/validateConflict";
 
-function Modal({ setShowModal, setAppointments, theme, appointments, editingAppointment, setEditingAppointment }) {
+function Modal({
+  setShowModal,
+  theme,
+  appointments,
+  editingAppointment,
+  setEditingAppointment,
+  onCreate,
+  onUpdate,
+}) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [service, setService] = useState("");
-  const [duration, setDuration] = useState(0);
+  const [serviceId, setServiceId] = useState("");
+  const [services, setServices] = useState([]);
   const [conflictError, setConflictError] = useState("");
+
+  useEffect(() => {
+    fetchServices()
+      .then(setServices)
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (editingAppointment) {
       setName(editingAppointment.name);
-      setDate(editingAppointment.date);
+      setDate(editingAppointment.date.split("T")[0]);
       setTime(editingAppointment.time);
-      setService(editingAppointment.service.name);
-      setDuration(editingAppointment.service.duration);
+      setServiceId(editingAppointment.service_id);
     }
   }, [editingAppointment]);
 
-  const handleServiceChange = (e) => {
-    const selectedService = services.find(
-      (service) => service.name === e.target.value,
-    );
-    setDuration(selectedService.duration);
-    setService(selectedService.name);
-  };
+  const selectedService = services.find((s) => s.id === Number(serviceId));
 
-  const handleApptSubmit = () => {
-    if (!name || !date || !time || !service) {
+  const handleApptSubmit = async () => {
+    if (!name || !date || !time || !serviceId) {
       setConflictError("Todos los campos son obligatorios");
       return;
     }
 
     const appointmentData = {
-      id: editingAppointment ? editingAppointment.id : Date.now(),
       name,
       date,
       time,
-      service: {
-        name: service,
-        duration,
-      },
+      service_id: Number(serviceId),
+      service_name: selectedService?.name,
+      service_duration: selectedService?.duration,
     };
+
+    console.log(appointmentData);
 
     if (hasConflict(appointmentData, appointments)) {
       setConflictError("Ya existe una cita en ese horario");
@@ -52,24 +59,17 @@ function Modal({ setShowModal, setAppointments, theme, appointments, editingAppo
 
     setConflictError("");
 
-    if (editingAppointment) {
-      setAppointments((prev) =>
-        prev.map((appt) =>
-          appt.id === editingAppointment.id ? appointmentData : appt,
-        ),
-      );
-      setEditingAppointment(null);
-    } else {
-      setAppointments((prev) => {
-        const sorted = [...prev, appointmentData];
-        return sorted.sort(
-          (a, b) =>
-            new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time),
-        );
-      });
+    try {
+      if (editingAppointment) {
+        await onUpdate(editingAppointment.id, appointmentData);
+        setEditingAppointment(null);
+      } else {
+        await onCreate(appointmentData);
+      }
+      setShowModal(false);
+    } catch {
+      setConflictError("Error al guardar la cita");
     }
-
-    setShowModal(false);
   };
 
   const handleClose = () => {
@@ -123,13 +123,12 @@ function Modal({ setShowModal, setAppointments, theme, appointments, editingAppo
             <label className="w-17.5">Servicio:</label>
             <select
               className="w-30 text-[11px] px-1  border rounded-md"
-              name="minutes"
-              value={service}
-              onChange={handleServiceChange}
+              value={serviceId}
+              onChange={(e) => setServiceId(e.target.value)}
             >
               <option value="">Selecionar</option>
-              {services.map((service, i) => (
-                <option key={i} value={service.name}>
+              {services.map((service) => (
+                <option key={service.id} value={service.id}>
                   {service.name}
                 </option>
               ))}
@@ -140,10 +139,7 @@ function Modal({ setShowModal, setAppointments, theme, appointments, editingAppo
             <input
               className="w-30 text-[11px] px-1 border rounded-md"
               type="text"
-              value={duration}
-              onChange={(e) => {
-                setDuration(e.target.value);
-              }}
+              value={selectedService?.duration || ""}
               readOnly
             />
           </div>
@@ -162,7 +158,9 @@ function Modal({ setShowModal, setAppointments, theme, appointments, editingAppo
             </button>
           </div>
           {conflictError && (
-            <p className="text-red-500 text-[10px] text-center mt-2 w-full">{conflictError}</p>
+            <p className="text-red-500 text-[10px] text-center mt-2 w-full">
+              {conflictError}
+            </p>
           )}
         </div>
       </div>
