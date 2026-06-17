@@ -6,11 +6,11 @@ export const fetchAppointments = async () => {
   return res.json();
 };
 
-export const createAppointment = async (name, date, time, service_id) => {
+export const createAppointment = async (name, phone, date, time, service_id) => {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, date, time, service_id }),
+    body: JSON.stringify({ name, phone, date, time, service_id }),
   });
   if (!res.ok) {
     const err = await res.json();
@@ -19,11 +19,11 @@ export const createAppointment = async (name, date, time, service_id) => {
   return res.json();
 };
 
-export const updateAppointment = async (id, name, date, time, service_id) => {
+export const updateAppointment = async (id, name, phone, date, time, service_id) => {
   const res = await fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, date, time, service_id }),
+    body: JSON.stringify({ name, phone, date, time, service_id }),
   });
   if (!res.ok) {
     const err = await res.json();

@@ -12,6 +12,7 @@ function Modal({
   onUpdate,
 }) {
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [serviceId, setServiceId] = useState("");
@@ -27,6 +28,7 @@ function Modal({
   useEffect(() => {
     if (editingAppointment) {
       setName(editingAppointment.name);
+      setPhone(editingAppointment.phone || "");
       setDate(editingAppointment.date.split("T")[0]);
       setTime(editingAppointment.time);
       setServiceId(editingAppointment.service_id);
@@ -44,6 +46,7 @@ function Modal({
     const appointmentData = {
       id: editingAppointment?.id,
       name,
+      phone,
       date,
       time,
       service_id: Number(serviceId),
@@ -73,6 +76,7 @@ function Modal({
 
   const handleClose = () => {
     setEditingAppointment(null);
+    setPhone("");
     setShowModal(false);
   };
 
@@ -98,6 +102,16 @@ function Modal({
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-1">
+            <label className="w-17.5">Telefono:</label>
+            <input
+              className="w-30 text-[11px] px-1 border rounded-md"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="10 digitos"
             />
           </div>
           <div className="flex gap-1">

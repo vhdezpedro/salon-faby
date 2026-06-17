@@ -35,6 +35,7 @@ function App() {
   const handleCreateAppointment = async (appointmentData) => {
     const newAppt = await createAppointment(
       appointmentData.name,
+      appointmentData.phone,
       appointmentData.date,
       appointmentData.time,
       appointmentData.service_id,
@@ -51,6 +52,7 @@ function App() {
     const updated = await updateAppointment(
       id,
       appointmentData.name,
+      appointmentData.phone,
       appointmentData.date,
       appointmentData.time,
       appointmentData.service_id,
