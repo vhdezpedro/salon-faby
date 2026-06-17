@@ -89,12 +89,8 @@ function MonthView(props) {
               {appointments &&
                 appointments
                   .filter((appt) => {
-                    const apptDate = new Date(appt.date);
-                    return (
-                      apptDate.getDate() === day &&
-                      apptDate.getMonth() === currentMonth &&
-                      apptDate.getFullYear() === currentYear
-                    );
+                    const [y, m, d] = appt.date.split("-").map(Number);
+                    return d === day + 1 && m - 1 === currentMonth && y === currentYear;
                   })
                   .map((appt) => (
                     <div

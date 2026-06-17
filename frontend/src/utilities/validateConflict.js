@@ -1,24 +1,20 @@
 export function hasConflict(newAppointment, existingAppointments) {
-  const newStart = parseDateTime(newAppointment.date, newAppointment.time);
-  const newEnd = new Date(newStart.getTime() + newAppointment.service.duration * 60000);
+  const newStartMin = timeToMinutes(newAppointment.time);
+  const newEndMin = newStartMin + newAppointment.service.duration;
 
   return existingAppointments.some((existing) => {
     if (existing.id === newAppointment.id) return false;
 
-    const existStart = parseDateTime(existing.date, existing.time);
-    const existEnd = new Date(existStart.getTime() + existing.service.duration * 60000);
+    const existStartMin = timeToMinutes(existing.time);
+    const existEndMin = existStartMin + existing.service.duration;
 
-    const sameDay =
-      newStart.getFullYear() === existStart.getFullYear() &&
-      newStart.getMonth() === existStart.getMonth() &&
-      newStart.getDate() === existStart.getDate();
+    if (newAppointment.date !== existing.date) return false;
 
-    if (!sameDay) return false;
-
-    return newStart < existEnd && existStart < newEnd;
+    return newStartMin < existEndMin && existStartMin < newEndMin;
   });
 }
 
-function parseDateTime(date, time) {
-  return new Date(`${date}T${time}`);
+function timeToMinutes(time) {
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + m;
 }
