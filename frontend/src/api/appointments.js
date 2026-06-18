@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3001/api/appointments";
+const API_URL =
+  "https://supplies-twenty-much-millions.trycloudflare.com/api/appointments";
 
 export const fetchAppointments = async () => {
   const res = await fetch(API_URL);
@@ -6,7 +7,13 @@ export const fetchAppointments = async () => {
   return res.json();
 };
 
-export const createAppointment = async (name, phone, date, time, service_id) => {
+export const createAppointment = async (
+  name,
+  phone,
+  date,
+  time,
+  service_id,
+) => {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,7 +26,14 @@ export const createAppointment = async (name, phone, date, time, service_id) => 
   return res.json();
 };
 
-export const updateAppointment = async (id, name, phone, date, time, service_id) => {
+export const updateAppointment = async (
+  id,
+  name,
+  phone,
+  date,
+  time,
+  service_id,
+) => {
   const res = await fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
