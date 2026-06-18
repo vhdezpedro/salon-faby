@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3001/api/services";
+const API_URL =
+  "https://supplies-twenty-much-millions.trycloudflare.com/api/services";
 
 export const fetchServices = async () => {
   const res = await fetch(API_URL);
