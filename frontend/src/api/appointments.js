@@ -1,5 +1,5 @@
 const API_URL =
-  "https://supplies-twenty-much-millions.trycloudflare.com/api/appointments";
+  "https://guy-tires-quad-seeks.trycloudflare.com/api/appointments";
 
 export const fetchAppointments = async () => {
   const res = await fetch(API_URL);
