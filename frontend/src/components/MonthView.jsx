@@ -89,9 +89,7 @@ function MonthView(props) {
               {appointments &&
                 (() => {
                   const dayAppts = appointments.filter((appt) => {
-                    const [y, m, d] = appt.date
-                      .split("-")
-                      .map(Number);
+                    const [y, m, d] = appt.date.split("-").map(Number);
                     return (
                       d === day + 1 &&
                       m - 1 === currentMonth &&
@@ -100,7 +98,7 @@ function MonthView(props) {
                   });
                   return (
                     <>
-                      {dayAppts.slice(0, 4).map((appt) => (
+                      {dayAppts.slice(0, 3).map((appt) => (
                         <div
                           key={appt.id}
                           className="bg-(--appointment-light) text-left text-[8px] rounded-sx"
@@ -110,9 +108,9 @@ function MonthView(props) {
                           </span>
                         </div>
                       ))}
-                      {dayAppts.length > 4 && (
+                      {dayAppts.length > 3 && (
                         <span className="text-[7px] text-gray-500 text-center">
-                          +{dayAppts.length - 4}
+                          +{dayAppts.length - 3}
                         </span>
                       )}
                     </>
